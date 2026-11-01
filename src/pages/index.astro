@@ -1,0 +1,454 @@
+---
+import Base from '../layouts/Base.astro';
+import MilkGlass from '../components/MilkGlass.astro';
+import NutritionLabel from '../components/NutritionLabel.astro';
+
+const facts = [
+  {
+    title: 'Cows make loads of it',
+    body: 'A typical dairy cow gives around 30 liters (about 8 gallons) a day. That’s roughly 120 glasses, every single day.',
+  },
+  {
+    title: 'Half the fridge started as milk',
+    body: 'Cheese, butter, yogurt, cream, kefir, ghee and ice cream are all milk that somebody kept working on.',
+  },
+  {
+    title: 'Cheese begins with a clump',
+    body: 'Milk protein floats around in tiny clusters called casein micelles. Add acid or rennet and they stick together into curds, the first step of every cheese.',
+  },
+  {
+    title: 'People evolved to drink it',
+    body: 'Most mammals stop digesting milk sugar once they’re weaned. About a third of adults still can, a trait that spread with dairy farming over the last 7,500 years.',
+  },
+  {
+    title: 'Pasteur made it safe',
+    body: 'In the 1860s Louis Pasteur showed that gentle heat kills the microbes that spoil drinks. Pasteurized milk keeps longer, and it stopped milk from spreading diseases like tuberculosis.',
+  },
+  {
+    title: 'Every glass is a calcium hit',
+    body: 'A 250 ml glass has about 300 mg of calcium, between a quarter and a third of what an adult needs in a day.',
+  },
+];
+
+const retailers = [
+  { name: 'Walmart', note: 'Store-brand gallons in nearly every town in the US.', url: 'https://www.walmart.com' },
+  { name: 'Costco', note: 'Two gallons at a time, for households that get through a lot of milk.', url: 'https://www.costco.com' },
+  { name: 'Target', note: 'Good & Gather milk, plus lactose-free and plant-based cartons.', url: 'https://www.target.com' },
+  { name: 'Kroger', note: 'Kroger-brand milk in every size from a pint to a gallon.', url: 'https://www.kroger.com' },
+  { name: 'Aldi', note: 'Friendly Farms milk at some of the lowest prices around.', url: 'https://www.aldi.us' },
+  { name: 'Whole Foods Market', note: 'Organic and grass-fed milk, often from smaller dairies.', url: 'https://www.wholefoodsmarket.com' },
+  { name: 'Tesco', note: 'For readers in the UK: milk in 1, 2, 4 and 6 pint bottles.', url: 'https://www.tesco.com' },
+  { name: 'Your corner shop', note: 'The closest milk to your house, open when the big stores aren’t.' },
+];
+
+const host = (url: string) => new URL(url).hostname.replace(/^www\./, '');
+---
+
+<Base
+  title="Milk"
+  description="What milk is, why it's great, and where to buy it. Every glass on the page breaks when you click it."
+>
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="top wrap">
+    <nav aria-label="Sections">
+      <a href="#what">What it is</a>
+      <a href="#why">Why it’s cool</a>
+      <a href="#buy">Where to buy</a>
+      <a href="#tyler">Big Tyler</a>
+    </nav>
+  </header>
+
+  <main id="main" tabindex="-1">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <div class="hero__text">
+        <h1 id="hero-title">Milk.</h1>
+        <p class="hero__lede">
+          Cold, white and mostly water. Here’s what it is, why it’s great, and where to buy it.
+        </p>
+        <p class="hero__hint">
+          Click or tap any glass on this page to break it. The milk stays on the floor until you hit Bottoms up.
+        </p>
+      </div>
+      <div class="hero__glass">
+        <MilkGlass size="lg" pour />
+      </div>
+    </section>
+
+    <section id="what" class="section wrap" aria-labelledby="what-title">
+      <div class="section__head">
+        <h2 id="what-title">What milk is</h2>
+        <MilkGlass />
+      </div>
+      <div class="what">
+        <div class="what__text">
+          <p>
+            Milk is the liquid mammals make to feed their young. Most of the milk people drink comes from cows, but
+            goats, sheep, buffalo and camels are milked all over the world too.
+          </p>
+          <p>
+            It’s about seven-eighths water. Fat, protein and milk sugar make up the rest, spread through the water as
+            droplets and clusters far too small to see.
+          </p>
+          <p>
+            Those tiny particles scatter every color of light about equally, so milk looks white instead of clear. Skim
+            milk has most of the fat taken out, scatters less, and looks faintly blue.
+          </p>
+        </div>
+        <NutritionLabel />
+      </div>
+    </section>
+
+    <section id="why" class="section wrap" aria-labelledby="why-title">
+      <div class="section__head">
+        <h2 id="why-title">Why milk is cool</h2>
+        <MilkGlass />
+      </div>
+      <ul class="facts">
+        {
+          facts.map((fact) => (
+            <li>
+              <h3>{fact.title}</h3>
+              <p>{fact.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="buy" class="section wrap" aria-labelledby="buy-title">
+      <div class="section__head">
+        <h2 id="buy-title">Where to buy milk</h2>
+        <MilkGlass />
+      </div>
+      <p class="buy__intro">
+        Pretty much every grocery store sells it. It’s usually against the back wall, so you walk past everything else
+        on the way.
+      </p>
+      <ul class="tags">
+        {
+          retailers.map((store) => (
+            <li class="tag">
+              <h3>{store.name}</h3>
+              <p>{store.note}</p>
+              {store.url ? (
+                <a href={store.url} rel="noopener" target="_blank">
+                  {host(store.url)}
+                </a>
+              ) : (
+                <span class="tag__where">Probably just down the road</span>
+              )}
+            </li>
+          ))
+        }
+      </ul>
+    </section>
+
+    <section id="tyler" class="shout" aria-labelledby="shout-title">
+      <div class="shout__inner wrap">
+        <h2 id="shout-title">THE REAL big tyler</h2>
+        <MilkGlass />
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <div class="foot__glasses">
+      <MilkGlass size="sm" />
+      <MilkGlass size="sm" />
+      <MilkGlass size="sm" />
+      <p>Three more, for the road.</p>
+    </div>
+    <p class="foot__small">Built with Astro. No cows were upset in the making of this page.</p>
+  </footer>
+</Base>
+
+<style>
+  .skip {
+    position: absolute;
+    top: -4rem;
+    left: 1rem;
+    z-index: 60;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    background: var(--milk);
+    color: var(--carton);
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .skip:focus {
+    top: 1rem;
+  }
+
+  .top {
+    padding-block: 1.25rem;
+  }
+
+  .top nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+  }
+
+  .top a {
+    padding-block: 0.5rem;
+    text-decoration: none;
+  }
+
+  .top a:hover {
+    text-decoration: underline;
+  }
+
+  /* Hero */
+
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2.5rem 3rem;
+    padding-block: clamp(2rem, 6vw, 5rem) clamp(3rem, 6vw, 5rem);
+  }
+
+  .hero h1 {
+    margin-left: -0.04em;
+    font-size: clamp(5.5rem, 21vw, 13.5rem);
+    line-height: 0.85;
+  }
+
+  .hero__lede {
+    max-width: 30rem;
+    margin-top: 1.75rem;
+    font-size: clamp(1.25rem, 2.2vw, 1.5rem);
+    line-height: 1.4;
+  }
+
+  .hero__hint {
+    max-width: 30rem;
+    margin-top: 1rem;
+    color: var(--skim);
+    font-size: 1rem;
+  }
+
+  .hero__glass {
+    padding-bottom: 0.5rem;
+  }
+
+  /* Sections */
+
+  .section {
+    padding-block: clamp(3rem, 6vw, 5rem);
+  }
+
+  .section__head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .section__head h2 {
+    font-size: clamp(2.75rem, 7vw, 4.5rem);
+  }
+
+  .what {
+    display: grid;
+    grid-template-columns: minmax(0, 34rem) minmax(0, 23rem);
+    justify-content: space-between;
+    align-items: start;
+    gap: 3rem;
+  }
+
+  .what__text p + p {
+    margin-top: 1.1em;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 3rem clamp(2rem, 6vw, 5rem);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Offset the second column so the facts read as a loose stack, not a table. */
+  .facts li:nth-child(even) {
+    margin-block: 4rem -4rem;
+  }
+
+  .facts h3 {
+    margin-bottom: 0.625rem;
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .facts p {
+    max-width: 30rem;
+    color: var(--skim);
+  }
+
+  .buy__intro {
+    max-width: 34rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .tags {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+    gap: 1rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  /* Hanging price tags, with a hole punched in the corner. */
+  .tag {
+    --hole: radial-gradient(circle at 1.5rem 1.5rem, transparent 0.4rem, #000 calc(0.4rem + 0.5px));
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 2.75rem 1.25rem 1.25rem;
+    border-radius: 0.5rem;
+    background: var(--milk);
+    color: var(--ink);
+    -webkit-mask: var(--hole);
+    mask: var(--hole);
+  }
+
+  .tag h3 {
+    color: var(--carton);
+    font-size: 1.625rem;
+  }
+
+  .tag p {
+    flex: 1;
+    font-size: 1rem;
+    line-height: 1.45;
+  }
+
+  .tag a,
+  .tag__where {
+    color: var(--carton);
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .tag a:focus-visible {
+    outline-color: var(--carton);
+  }
+
+  /* Shout-out */
+
+  .shout {
+    background: var(--carton-deep);
+  }
+
+  .shout__inner {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 2rem 3rem;
+    padding-block: clamp(3.5rem, 7vw, 6rem);
+  }
+
+  .shout h2 {
+    grid-column: 1 / -1;
+    margin-left: -0.04em;
+    font-size: clamp(3rem, 13vw, 10rem);
+    line-height: 0.9;
+    overflow-wrap: anywhere;
+  }
+
+  .shout__text {
+    max-width: 32rem;
+    font-size: 1.25rem;
+  }
+
+  .copy {
+    margin-top: 1.5rem;
+    padding: 0.75rem 1.25rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--milk);
+    color: var(--carton-deep);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .copy:hover {
+    background: var(--skim);
+  }
+
+  /* Footer */
+
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-block: 4rem 3rem;
+  }
+
+  .foot__glasses {
+    display: flex;
+    align-items: flex-end;
+    gap: 1.25rem;
+  }
+
+  .foot__glasses p {
+    margin-left: 0.5rem;
+    color: var(--skim);
+  }
+
+  .foot__small {
+    color: var(--skim);
+    font-size: 0.875rem;
+  }
+
+  @media (max-width: 52rem) {
+    .what {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (max-width: 40rem) {
+    /* Keep the four links on one row on phones. */
+    .top nav {
+      justify-content: space-between;
+      gap: 0 0.75rem;
+      font-size: 0.875rem;
+    }
+
+    .hero {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .hero h1 {
+      font-size: clamp(5.5rem, 30vw, 9rem);
+    }
+
+    .hero__glass {
+      justify-self: center;
+    }
+
+    .facts {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .facts li:nth-child(even) {
+      margin-block: 0;
+    }
+
+    .shout__inner {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+  }
+</style>

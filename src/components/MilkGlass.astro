@@ -1,0 +1,178 @@
+---
+type Size = 'lg' | 'md' | 'sm';
+
+interface Props {
+  size?: Size;
+  /** Fill the glass with an animation when the page loads. */
+  pour?: boolean;
+}
+
+const { size = 'md', pour = false } = Astro.props;
+
+// How much milk each glass spills onto the floor, relative to the others.
+const volume = { lg: 2, md: 1, sm: 0.6 }[size];
+const label = 'Break the glass of milk';
+---
+
+<button
+  class:list={['glass', `glass--${size}`, { 'is-filling': pour }]}
+  type="button"
+  data-glass
+  data-volume={volume}
+  data-label={label}
+  aria-label={label}
+>
+  <svg class="glass__whole" viewBox="0 0 120 160" aria-hidden="true">
+    <path class="glass__body" d="M14 8 H106 L97 146 Q96 154 88 154 H32 Q24 154 23 146 Z"></path>
+    <g class="glass__milk">
+      <path d="M20.3 44 H99.7 L93.7 136 Q93 141 88 141 H32 Q27 141 26.3 136 Z"></path>
+      <ellipse class="glass__surface" cx="60" cy="44" rx="39.7" ry="4.5"></ellipse>
+    </g>
+    <path class="glass__base" d="M26 141 H94 L93.4 147 Q92.6 151 87 151 H33 Q27.4 151 26.6 147 Z"></path>
+    <ellipse class="glass__rim" cx="60" cy="8" rx="46" ry="3.5"></ellipse>
+    <path class="glass__shine" d="M24 22 L30.5 128"></path>
+  </svg>
+
+  <svg class="glass__stump" viewBox="0 0 120 160" aria-hidden="true">
+    <path
+      class="glass__body"
+      d="M21.3 120 L31 109 L38 121 L50 103 L58 117 L69 106 L79 120 L88 111 L98.7 120 L97 146 Q96 154 88 154 H32 Q24 154 23 146 Z"
+    ></path>
+    <path class="glass__dregs" d="M26.2 134 Q60 130 93.8 134 L93.3 141 H26.7 Z"></path>
+    <path class="glass__base" d="M26 141 H94 L93.4 147 Q92.6 151 87 151 H33 Q27.4 151 26.6 147 Z"></path>
+  </svg>
+</button>
+
+<style>
+  .glass {
+    position: relative;
+    isolation: isolate;
+    flex: none;
+    width: var(--glass-width);
+    aspect-ratio: 120 / 160;
+    padding: 0;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .glass--lg {
+    --glass-width: clamp(10rem, 24vw, 16rem);
+  }
+
+  .glass--md {
+    --glass-width: clamp(4.5rem, 9vw, 6.25rem);
+  }
+
+  .glass--sm {
+    --glass-width: 3.5rem;
+  }
+
+  /* The shadow it casts on the table. */
+  .glass::after {
+    content: '';
+    position: absolute;
+    z-index: -1;
+    inset: auto 14% -3% 14%;
+    height: 7%;
+    border-radius: 50%;
+    background: var(--carton-deep);
+    opacity: 0.6;
+    filter: blur(5px);
+  }
+
+  svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .glass__whole {
+    transform-origin: 50% 95%;
+    transition: transform 180ms ease-out;
+  }
+
+  /* Touch screens keep :hover after a tap, so only tilt for real pointers. */
+  @media (hover: hover) {
+    .glass:hover .glass__whole {
+      transform: rotate(-4deg);
+    }
+  }
+
+  .glass:focus-visible .glass__whole {
+    transform: rotate(-4deg);
+  }
+
+  .glass:active .glass__whole {
+    transform: rotate(-4deg) scale(0.96);
+  }
+
+  .glass__body {
+    fill: rgb(255 255 255 / 0.12);
+    stroke: rgb(255 255 255 / 0.8);
+    stroke-width: 2.5;
+    stroke-linejoin: round;
+  }
+
+  .glass__rim {
+    fill: rgb(255 255 255 / 0.06);
+    stroke: rgb(255 255 255 / 0.8);
+    stroke-width: 2;
+  }
+
+  .glass__milk {
+    fill: var(--milk);
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+  }
+
+  .glass__surface {
+    fill: #dde5f3;
+  }
+
+  .glass__base {
+    fill: rgb(255 255 255 / 0.22);
+  }
+
+  .glass__shine {
+    fill: none;
+    stroke: rgb(255 255 255 / 0.5);
+    stroke-width: 4;
+    stroke-linecap: round;
+  }
+
+  .glass__dregs {
+    fill: var(--milk);
+    opacity: 0.85;
+  }
+
+  .glass__stump {
+    display: none;
+  }
+
+  .glass.is-broken {
+    cursor: default;
+  }
+
+  .glass.is-broken .glass__whole {
+    display: none;
+  }
+
+  .glass.is-broken .glass__stump {
+    display: block;
+  }
+
+  .glass.is-filling .glass__milk {
+    animation: glass-fill 1.1s cubic-bezier(0.25, 0.8, 0.3, 1) 0.15s both;
+  }
+
+  @keyframes glass-fill {
+    from {
+      transform: scaleY(0);
+    }
+  }
+</style>

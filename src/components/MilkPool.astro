@@ -1,0 +1,80 @@
+---
+// The puddle of spilled milk along the bottom of the screen, and the
+// little float with the button that sends a straw in to drink it.
+---
+
+<canvas class="pool" data-pool-canvas aria-hidden="true"></canvas>
+
+<div class="float" data-pool-control hidden>
+  <p class="float__count" data-pool-count></p>
+  <button class="float__drink" type="button" data-pool-drink>Bottoms up</button>
+</div>
+
+<p class="sr-only" role="status" data-pool-status></p>
+
+<script>
+  import '../scripts/milk';
+</script>
+
+<style>
+  .pool {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  .float {
+    position: fixed;
+    right: max(1rem, env(safe-area-inset-right));
+    bottom: 0;
+    z-index: 41;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0.375rem 0.375rem 0.375rem 1.125rem;
+    border-radius: 999px;
+    background: var(--carton-deep);
+    color: var(--milk);
+    box-shadow: 0 0.5rem 1.5rem rgb(16 40 122 / 0.35);
+    transform-origin: 50% 100%;
+    will-change: transform;
+  }
+
+  .float[hidden] {
+    display: none;
+  }
+
+  /* While the straw is busy there's no button, so even up the padding. */
+  .float.is-busy {
+    padding-right: 1.125rem;
+  }
+
+  .float__count {
+    font-size: 0.875rem;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  .float__drink {
+    min-height: 2.75rem;
+    padding: 0 1.125rem;
+    border: 0;
+    border-radius: 999px;
+    background: var(--milk);
+    color: var(--carton-deep);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .float__drink:hover {
+    background: var(--skim);
+  }
+</style>
